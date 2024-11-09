@@ -1,14 +1,7 @@
-//write export with a div and some lorem
+import ChatContainer from './ChatContainer';
+
 export const ChatBot = () => {
-  return (
-    <div>
-      <p className="text-white">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-        odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla
-        quis sem at nibh elementum imperdiet.
-      </p>
-    </div>
-  );
+  return <ChatContainer />;
 };
 
 export default ChatBot;

@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import './App.css';
 import Landing from './Pages/Landing';
 import Home from './Pages/Home';
@@ -8,90 +13,47 @@ import SideNavigationBar from './components/SideNavBar';
 import CallLogs from './components/CallLogs';
 import Analytics from './components/Analytics';
 
+// Wrapper component to check the current route
+const AppContent = () => {
+  const [expanded, setExpanded] = useState(true);
+  const location = useLocation();
+
+  // Don't show navbar on landing page
+  if (location.pathname === '/') {
+    return (
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    );
+  }
+
+  // Show navbar for all other routes
+  return (
+    <div className="flex min-h-screen">
+      <SideNavigationBar
+        onSectionChange={(section) => console.log(section)}
+        onExpandedChange={setExpanded}
+      />
+      <main
+        className={`flex-1 transition-all duration-300 ${
+          expanded ? 'ml-64' : 'ml-16'
+        }`}
+      >
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/chatbot" element={<ChatBot />} />
+          <Route path="/calllogs" element={<CallLogs />} />
+          <Route path="/analytics" element={<Analytics />} />
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
 function App() {
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
-
-  const toggleSidebar = () => {
-    setIsSidebarExpanded(!isSidebarExpanded);
-  };
-
   return (
     <Router>
-      <Routes>
-        {/* Route for the landing page */}
-        <Route path="/" element={<Landing />} />
-
-        {/* Route for the main application page with sidebar */}
-        <Route
-          path="/home"
-          element={
-            <div className="flex h-screen">
-              <div className={isSidebarExpanded ? 'w-64' : 'w-20'}>
-                <SideNavigationBar toggleSidebar={toggleSidebar} />{' '}
-                {/* Sidebar stays fixed */}
-              </div>
-              <div className="flex-1">
-                {/* Content area */}
-                <Home /> {/* Home page content */}
-              </div>
-            </div>
-          }
-        />
-
-        {/* Route for chatbot page */}
-        <Route
-          path="/chatbot"
-          element={
-            <div className="flex h-screen">
-              <div className={isSidebarExpanded ? 'w-64' : 'w-20'}>
-                <SideNavigationBar toggleSidebar={toggleSidebar} />{' '}
-                {/* Sidebar stays fixed */}
-              </div>
-              <div className="flex-1">
-                {' '}
-                {/* Content area */}
-                <ChatBot /> {/* ChatBot content */}
-              </div>
-            </div>
-          }
-        />
-
-        {/* Route for call logs page */}
-        <Route
-          path="/calllogs"
-          element={
-            <div className="flex h-screen">
-              <div className={isSidebarExpanded ? 'w-64' : 'w-20'}>
-                <SideNavigationBar toggleSidebar={toggleSidebar} />{' '}
-                {/* Sidebar stays fixed */}
-              </div>
-              <div className="flex-1">
-                {' '}
-                {/* Content area */}
-                <CallLogs /> {/* CallLogs content */}
-              </div>
-            </div>
-          }
-        />
-
-        {/* Route for analytics page */}
-        <Route
-          path="/analytics"
-          element={
-            <div className="flex h-screen">
-              <div className={isSidebarExpanded ? 'w-64' : 'w-20'}>
-                <SideNavigationBar toggleSidebar={toggleSidebar} />{' '}
-                {/* Sidebar stays fixed */}
-              </div>
-              <div className="flex-1">
-                {' '}
-                {/* Content area */}
-                <Analytics /> {/* Analytics content */}
-              </div>
-            </div>
-          }
-        />
-      </Routes>
+      <AppContent />
     </Router>
   );
 }
