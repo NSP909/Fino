@@ -18,21 +18,18 @@ export const MainHeader = () => {
           <div className="hidden md:block">
             <nav className="flex gap-8 text-sm">
               <a href="#" className="text-white/70 hover:text-white transition">
+                Home
+              </a>
+              <a href="#" className="text-white/70 hover:text-white transition">
                 Features
               </a>
               <a href="#" className="text-white/70 hover:text-white transition">
-                Random
-              </a>
-              <a href="#" className="text-white/70 hover:text-white transition">
-                Random
-              </a>
-              <a href="#" className="text-white/70 hover:text-white transition">
-                Random
+                Connect
               </a>
             </nav>
           </div>
           <div className="flex gap-4 items-center">
-            <Button>JOIN PLEASE</Button>
+            <Button to="/home">JOIN PLEASE</Button>
             <div>
               <img src={Menu} alt="Logo" className="h-8 w-8 md:hidden" />
             </div>
