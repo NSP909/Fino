@@ -1,0 +1,109 @@
+{
+  "hash": "2c8421b5",
+  "configHash": "487bf419",
+  "lockfileHash": "4d9f8f57",
+  "browserHash": "c7ef4abf",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "ad7becb9",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "15b25ede",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "f8f08d0b",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "f5eb1e30",
+      "needsInterop": false
+    },
+    "react-icons/tb": {
+      "src": "../../node_modules/react-icons/tb/index.mjs",
+      "file": "react-icons_tb.js",
+      "fileHash": "83130dbc",
+      "needsInterop": false
+    },
+    "react-icons/fi": {
+      "src": "../../node_modules/react-icons/fi/index.mjs",
+      "file": "react-icons_fi.js",
+      "fileHash": "8527ef75",
+      "needsInterop": false
+    },
+    "framer-motion": {
+      "src": "../../node_modules/framer-motion/dist/es/index.mjs",
+      "file": "framer-motion.js",
+      "fileHash": "fc8e06ab",
+      "needsInterop": false
+    },
+    "@dotlottie/react-player": {
+      "src": "../../node_modules/@dotlottie/react-player/dist/index.js",
+      "file": "@dotlottie_react-player.js",
+      "fileHash": "3fb4af84",
+      "needsInterop": false
+    },
+    "prop-types": {
+      "src": "../../node_modules/prop-types/index.js",
+      "file": "prop-types.js",
+      "fileHash": "7f93696f",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "lottie_light_html-SLCECTRT-MSMQKYD7": {
+      "file": "lottie_light_html-SLCECTRT-MSMQKYD7.js"
+    },
+    "lottie_html-X3TYKVQI-O5COVFN4": {
+      "file": "lottie_html-X3TYKVQI-O5COVFN4.js"
+    },
+    "dotlottie-state-machine-manager-2E7RUGJG-RGCKWMI7": {
+      "file": "dotlottie-state-machine-manager-2E7RUGJG-RGCKWMI7.js"
+    },
+    "dotlottie-audio-P3HPZ7WS": {
+      "file": "dotlottie-audio-P3HPZ7WS.js"
+    },
+    "lottie_worker-Q23FJ6ZR-RGUI4VYF": {
+      "file": "lottie_worker-Q23FJ6ZR-RGUI4VYF.js"
+    },
+    "lottie_light-KMJEUZFY-UXMJUCYA": {
+      "file": "lottie_light-KMJEUZFY-UXMJUCYA.js"
+    },
+    "lottie_svg-MJGYILXD-AK7I6TDB": {
+      "file": "lottie_svg-MJGYILXD-AK7I6TDB.js"
+    },
+    "lottie_light_canvas-B5UTTNXA-W42QH3R2": {
+      "file": "lottie_light_canvas-B5UTTNXA-W42QH3R2.js"
+    },
+    "lottie_canvas-CDSUBMCL-GOPO4M26": {
+      "file": "lottie_canvas-CDSUBMCL-GOPO4M26.js"
+    },
+    "chunk-JMVEG3FK": {
+      "file": "chunk-JMVEG3FK.js"
+    },
+    "chunk-IGAL4HQT": {
+      "file": "chunk-IGAL4HQT.js"
+    },
+    "chunk-6TMCHNMY": {
+      "file": "chunk-6TMCHNMY.js"
+    },
+    "chunk-USPGI4ZR": {
+      "file": "chunk-USPGI4ZR.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}
