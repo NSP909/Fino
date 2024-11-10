@@ -32,28 +32,51 @@ const ChatBot = () => {
       type: 'user',
       content: inputMessage.trim(),
     };
-
+    console.log('user log is', userMessage);
     setMessages((prev) => [...prev, userMessage]);
     setInputMessage('');
     setIsLoading(true);
+    console.log(JSON.stringify({ question: userMessage.content }));
 
     try {
-      const response = await fetch('http://161.35.127.128:5000/chatbot', {
+      const response = await fetch('http://161.35.127.128:5000/query', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userMessage.content }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          type: 'bot',
-          content: data[data.length - 1],
-        },
-      ]);
+      const data = await response.json();
+      console.log('data is', data);
+
+      // Check if the response is an error message
+      if (data.error) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            type: 'bot',
+            content: data.error,
+          },
+        ]);
+      } else {
+        // If the response is a list of results, format it as a string
+        const botResponse = Array.isArray(data)
+          ? data[0] // Select the first item directly instead of mapping and stringifying
+          : data.message || JSON.stringify(data);
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            type: 'bot',
+            content: botResponse,
+          },
+        ]);
+      }
     } catch (error) {
       setMessages((prev) => [
         ...prev,
