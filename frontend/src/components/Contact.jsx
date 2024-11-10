@@ -85,18 +85,18 @@ export const Contact = () => {
             }}
           ></motion.div>
           <div className="relative">
-            <h2 className="text-white text-5xl md:text-6xl max-w-sm mx-auto tracking-tighter text-center font-medium">
-              FINO - Finance Lorem, ipsum.
+            <h2 className="text-white text-3xl md:text-6xl max-w-sm mx-auto tracking-tighter text-center font-lg">
+              Orbital Finance
             </h2>
-            <p className="text-center text-lg md:text-xl max-w-xs mx-auto text-white/70 px-4 mt-5 tracking-tight">
-              Lorem ipsum dolor sit amet consectetur.
+            <p className="text-center text-lg md:text-lg max-w-xs mx-auto text-white/70 px-4 mt-5 tracking-tight">
+              Embarking journeys to the stars, one step at a time.
             </p>
             <div className="mt-8 max-w-md mx-auto px-4">
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
                   <label
                     htmlFor="email"
-                    className="block text-white/70 text-sm"
+                    className="block text-white/70 text-md"
                   >
                     Email Address:
                   </label>

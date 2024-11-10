@@ -102,16 +102,15 @@ export const Hero = () => {
 
       <div className="container relative mt-16">
         <h1 className="text-8xl md:text-[168px] md:leading-none bg-white font-semibold tracking-tighter bg-[radial-gradient(100%_100%_at_top_left,white,white,rgb(74,32,138,.5))] text-transparent bg-clip-text text-center">
-          Fina Finance
+          Orbital Finance
         </h1>
         <p className="text-lg md:text-xl text-white/70 mt-5 text-center max-w-xl mx-auto">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo quidem
-          sapiente ex itaque totam eveniet, accusamus omnis error quia
-          accusantium.
+          Empowering businesses with Al-driven calls, real-time data, and
+          analysis for smarter growth.
         </p>
         <div className="flex justify-center mt-5 mb-9">
           <Button href="/home" className="text-white/70">
-            JOIN
+            Try It!
           </Button>
         </div>
       </div>

@@ -44,7 +44,7 @@ export const MainHeader = ({
           </div>
           <div className="flex gap-4 items-center">
             <Button href="/home" className="text-white/70">
-              JOIN PLEASE
+              Join Now
             </Button>
 
             <div>
