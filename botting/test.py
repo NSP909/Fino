@@ -143,9 +143,9 @@ async def handle_media_stream(websocket: WebSocket):
                             response["response"]["output"][0].get("type") == "function_call"):
                             if  response["response"]["output"][0]["name"]=="plan_meeting"\
                                 and "arguments" in response["response"]["output"][0]:
-                                arguments = response["response"]["output"][0]["arguments"]
+                                arguments = json.loads(response["response"]["output"][0]["arguments"])
                                 print(arguments)
-                                email="rthippar@umd.edu"
+                                email="nspd@umd.edu"
                                 date=arguments["date"]
                                 time=arguments["time"]
                                 duration=arguments["duration"]
@@ -154,7 +154,7 @@ async def handle_media_stream(websocket: WebSocket):
                                 print("added meeting SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS")
                             elif response["response"]["output"][0]["name"]=="get_information"\
                                 and "arguments" in response["response"]["output"][0]:
-                                arguments = response["response"]["output"][0]["arguments"]
+                                arguments = json.loads(response["response"]["output"][0]["arguments"])
                                 print(arguments)
                                 topic=arguments["topic"]
                                 context = get_relevnt_info(topic)

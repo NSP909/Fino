@@ -29,7 +29,7 @@ load_dotenv()
 open_ai_key = os.environ.get("OPEN_AI_KEY")
 os.environ["OPENAI_API_KEY"] = open_ai_key
 SCHEMA = """
-Table: customer_data
+Table: database
 Columns and Constraints:
 1. first_name (str):
    - Customer's first name
@@ -99,16 +99,16 @@ Columns and Constraints:
 
 Common Query Patterns:
 1. Customer Search:
-   SELECT * FROM customer_data WHERE UPPER(city) = UPPER(:city) AND state = :state;
+   SELECT * FROM database WHERE UPPER(city) = UPPER(:city) AND state = :state;
 
 2. Income Analysis:
-   SELECT AVG(income) FROM customer_data WHERE credit >= :min_credit;
+   SELECT AVG(income) FROM database WHERE credit >= :min_credit;
 
 3. Stock Holdings:
-   SELECT stocks FROM customer_data WHERE income > :min_income;
+   SELECT stocks FROM database WHERE income > :min_income;
 
 4. Experience Rating:
-   SELECT COUNT(*) FROM customer_data WHERE experience >= :min_rating;
+   SELECT COUNT(*) FROM database WHERE experience >= :min_rating;
 """
 
 # Improved system prompt with more specific instructions and examples
@@ -117,7 +117,7 @@ system_role = """You are a precise SQL query generator specialized in customer d
 1. SCHEMA COMPLIANCE:
    - Use only fields defined in the schema
    - Respect data types and constraints
-   - Table name is always 'customer_data'
+   - Table name is always 'database'
 
 2. SQL BEST PRACTICES:
    - Use UPPER() for case-insensitive string comparisons
@@ -147,29 +147,26 @@ system_role = """You are a precise SQL query generator specialized in customer d
 Example Queries:
 1. Find high-value customers in California:
    SELECT first_name, last_name, income 
-   FROM customer_data 
+   FROM database 
    WHERE state = 'CA' AND income > 100000.00 
    ORDER BY income DESC;
 
 2. Analyze customer satisfaction by state:
    SELECT state, AVG(experience) as avg_satisfaction 
-   FROM customer_data 
+   FROM database 
    GROUP BY state 
    HAVING COUNT(*) > 5;
 
 3. Find customers with specific stock holdings:
    SELECT first_name, last_name 
-   FROM customer_data 
+   FROM database 
    WHERE stocks ? 'AAPL' AND credit >= 700.0;
 
 Return only the SQL query without any explanation or additional text.
 """
 
-query_checker = """You are query statement checker that checks if a statement can be converted to SQL, 
-basically you will get a text and you have to give a true or false answer if it is asking for some sort of data from the database schema {database_schema}. 
-Eg- hello,hi,bye is not an sql query 
-when there are words like select, remove, delete, add insert and so on then it is valid unless there are fields outside of database scheme
-also understand the fields from the database schema given {database_schema}
+query_checker = """You are a releancy analyzer and your job is to to discard irrelevant queriess.
+This is the schema  {database_schema}. 
 """
 
 def checker(input_text):
@@ -223,7 +220,7 @@ def get_customer_data():
             SELECT id, first_name, last_name, city, state, 
                    income, credit, stocks::text, income, 
                    purchases::text, comments, feedback, experience
-            FROM customer_data;
+            FROM database;
         """)
         
         # Fetch column names

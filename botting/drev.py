@@ -126,8 +126,8 @@ def extract():
                     'experience': customer['experience']
             }
             cur.execute('''
-                    INSERT INTO customer_data (id, first_name, last_name, street_number, street_name, city, state, zip, income, credit, stocks, purchases, comments, feedback, experience) 
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    INSERT INTO database (id, first_name, last_name, street_number, street_name, city, state, zip, income, credit, stocks, purchases, comments, feedback, experience) 
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ''', (
                     data['id'], data['first_name'], data['last_name'], data['street_number'], data['street_name'], data['city'], data['state'], data['zip'], data['income'], data['credit'], data['stocks_owned'], data['recent_purchases'], data['extra_comments'], data['feedback'], data['experience']
             ))

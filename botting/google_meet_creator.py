@@ -25,8 +25,8 @@ class GoogleMeetCreator:
                 self.creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    '../credentials.json', self.SCOPES)
-                self.creds = flow.run_local_server(port=0)
+                    '../../credentials.json', self.SCOPES)
+                self.creds = flow.run_local_server(port=49175)
             
             # Save credentials for future use
             with open('token.pickle', 'wb') as token:
