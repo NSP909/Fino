@@ -39,7 +39,8 @@ const ChatBot = () => {
     console.log(JSON.stringify({ question: userMessage.content }));
 
     try {
-      const response = await fetch('http://161.35.127.128:5000/query', {
+      const response = await fetch('http://localhost:8000/chatbot', {
+        // mode: 'no-cors',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userMessage.content }),
@@ -65,7 +66,7 @@ const ChatBot = () => {
       } else {
         // If the response is a list of results, format it as a string
         const botResponse = Array.isArray(data)
-          ? data[0] // Select the first item directly instead of mapping and stringifying
+          ? data.map((item) => JSON.stringify(item)).join('\n')
           : data.message || JSON.stringify(data);
 
         setMessages((prev) => [

@@ -29,7 +29,7 @@ const Dashboard = () => {
   const [customerData, setCustomerData] = useState([]);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:5000/api/customer-data')
+    fetch('http://127.0.0.1:8000/api/customer-data')
       .then((response) => response.json())
       .then((data) => setCustomerData(data));
   }, []);
@@ -40,8 +40,8 @@ const Dashboard = () => {
       {
         label: 'Income vs. Credit Score',
         data: customerData.map((item) => ({
-          x: item.credit_score,
-          y: item.annual_income,
+          x: item.credit,
+          y: item.income,
         })),
         backgroundColor: 'rgba(54, 162, 235, 0.7)',
       },
@@ -50,9 +50,7 @@ const Dashboard = () => {
 
   // 2. Income Distribution by Experience Level (Stacked Bar Chart)
   const experienceGroups = customerData.reduce((acc, item) => {
-    acc[item.experience] = (acc[item.experience] || []).concat(
-      item.annual_income,
-    );
+    acc[item.experience] = (acc[item.experience] || []).concat(item.income);
     return acc;
   }, {});
   const avgIncomeByExperience = Object.entries(experienceGroups).map(
@@ -335,7 +333,7 @@ export default Dashboard;
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const response = await fetch('http://127.0.0.1:5000/api/customer-data');
+//         const response = await fetch('http://127.0.0.1:8000/api/customer-data');
 //         const data = await response.json();
 
 //         // Preparing chart data for each chart component
@@ -344,7 +342,7 @@ export default Dashboard;
 //           datasets: [
 //             {
 //               label: 'Annual Income',
-//               data: data.map((item) => item.annual_income),
+//               data: data.map((item) => item.income),
 //               borderColor: 'rgba(75,192,192,1)',
 //               backgroundColor: 'rgba(75,192,192,0.2)',
 //               fill: true,
@@ -357,7 +355,7 @@ export default Dashboard;
 //           datasets: [
 //             {
 //               label: 'Income by City',
-//               data: data.map((item) => item.annual_income),
+//               data: data.map((item) => item.income),
 //               backgroundColor: 'rgba(255, 99, 132, 0.2)',
 //               borderColor: 'rgba(255, 99, 132, 1)',
 //               borderWidth: 1,
@@ -371,8 +369,8 @@ export default Dashboard;
 //             {
 //               label: 'Customer Data',
 //               data: [
-//                 data.reduce((sum, item) => sum + item.annual_income, 0) / data.length,
-//                 data.reduce((sum, item) => sum + item.credit_score, 0) / data.length,
+//                 data.reduce((sum, item) => sum + item.income, 0) / data.length,
+//                 data.reduce((sum, item) => sum + item.credit, 0) / data.length,
 //                 data.reduce((sum, item) => sum + item.experience, 0) / data.length,
 //               ],
 //               backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -404,9 +402,9 @@ export default Dashboard;
 //             {
 //               label: 'Income Distribution',
 //               data: [
-//                 data.filter((item) => item.annual_income > 70000).length,
-//                 data.filter((item) => item.annual_income <= 70000 && item.annual_income > 30000).length,
-//                 data.filter((item) => item.annual_income <= 30000).length,
+//                 data.filter((item) => item.income > 70000).length,
+//                 data.filter((item) => item.income <= 70000 && item.income > 30000).length,
+//                 data.filter((item) => item.income <= 30000).length,
 //               ],
 //               backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
 //             },
@@ -417,7 +415,7 @@ export default Dashboard;
 //           datasets: [
 //             {
 //               label: 'Experience vs Credit Score',
-//               data: data.map((item) => ({ x: item.experience, y: item.credit_score })),
+//               data: data.map((item) => ({ x: item.experience, y: item.credit })),
 //               backgroundColor: 'rgba(75,192,192,1)',
 //             },
 //           ],
@@ -429,9 +427,9 @@ export default Dashboard;
 //             {
 //               label: 'Income Polar Chart',
 //               data: [
-//                 data.filter((item) => item.annual_income <= 30000).length,
-//                 data.filter((item) => item.annual_income <= 70000 && item.annual_income > 30000).length,
-//                 data.filter((item) => item.annual_income > 70000).length,
+//                 data.filter((item) => item.income <= 30000).length,
+//                 data.filter((item) => item.income <= 70000 && item.income > 30000).length,
+//                 data.filter((item) => item.income > 70000).length,
 //               ],
 //               backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
 //             },
@@ -544,7 +542,7 @@ export default Dashboard;
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const response = await fetch('http://127.0.0.1:5000/api/customer-data');
+//         const response = await fetch('http://127.0.0.1:8000/api/customer-data');
 //         const data = await response.json();
 
 //         // Simulated realistic data preparation for each chart
@@ -566,7 +564,7 @@ export default Dashboard;
 //           datasets: [
 //             {
 //               label: 'Revenue by Region',
-//               data: [5000, 4000, 4500, 4700],
+//               data: [8000, 4000, 4500, 4700],
 //               backgroundColor: 'rgba(255, 99, 132, 0.2)',
 //               borderColor: 'rgba(255, 99, 132, 1)',
 //               borderWidth: 1,
@@ -579,7 +577,7 @@ export default Dashboard;
 //           datasets: [
 //             {
 //               label: 'Customer Demographics',
-//               data: [35, 55000, 4, 3, 7], // Average age, income, education (1-5 scale), satisfaction (1-5 scale), years of experience
+//               data: [35, 58000, 4, 3, 7], // Average age, income, education (1-5 scale), satisfaction (1-5 scale), years of experience
 //               backgroundColor: 'rgba(54, 162, 235, 0.2)',
 //               borderColor: 'rgba(54, 162, 235, 1)',
 //               borderWidth: 1,
@@ -615,12 +613,12 @@ export default Dashboard;
 //             {
 //               label: 'Age vs Income',
 //               data: [
-//                 { x: 25, y: 25000 },
-//                 { x: 30, y: 35000 },
-//                 { x: 40, y: 45000 },
-//                 { x: 45, y: 55000 },
-//                 { x: 50, y: 65000 },
-//                 { x: 60, y: 75000 },
+//                 { x: 25, y: 28000 },
+//                 { x: 30, y: 38000 },
+//                 { x: 40, y: 48000 },
+//                 { x: 45, y: 58000 },
+//                 { x: 50, y: 68000 },
+//                 { x: 60, y: 78000 },
 //                 { x: 35, y: 40000 },
 //                 { x: 28, y: 30000 },
 //               ],

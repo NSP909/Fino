@@ -26,58 +26,156 @@ CORS(app, origins="*")
 
 # Load environment variables
 load_dotenv()
+open_ai_key = os.environ.get("OPEN_AI_KEY")
+os.environ["OPENAI_API_KEY"] = open_ai_key
 SCHEMA = """
 Table: customer_data
-Columns:
-- first_name (str): Customer's first name
-- last_name (str): Customer's last name
-- street_number (str): Can have both numbers and letters
-- street_name (str): Street Name
-- city (str): City name, exactly as officially spelled
-- state (str): as a two letter abbreviation
-- zip (str): as a 5 digit number
-- credit (float): as a float/integer to represent credit score
-- stocks (jsonb): JSONb array of stocks owned as strings 
-- income (float): as a float
-- purchases (jsonb): JSONb array of purchases as strings
-- comments (str): a string
-- feedback (str): a string
-- experience (int): number between 0 and 5 
+Columns and Constraints:
+1. first_name (str):
+   - Customer's first name
+   - Cannot be NULL
+   - Example: 'John'
+
+2. last_name (str):
+   - Customer's last name
+   - Cannot be NULL
+   - Example: 'Smith'
+
+3. street_number (str):
+   - Alphanumeric street number
+   - Example: '123A'
+
+4. street_name (str):
+   - Full street name including type
+   - Example: 'Maple Avenue'
+
+5. city (str):
+   - City name with exact official spelling
+   - Case-insensitive comparisons should use UPPER()
+   - Example: 'San Francisco'
+
+6. state (str):
+   - Two-letter state code
+   - Must be uppercase
+   - Example: 'CA' for California, 'NY' for New York
+
+7. zip (str):
+   - 5-digit ZIP code
+   - Must match pattern: '\d{5}'
+   - Example: '94105'
+
+8. credit (float):
+   - Credit score
+   - Range: 300.0 to 850.0
+   - Example: 725.5
+
+9. stocks (jsonb):
+   - Array of stock symbols
+   - Example: ['AAPL', 'GOOGL', 'MSFT']
+
+10. income (float):
+    - Annual income in USD
+    - Must be positive
+    - Example: 75000.00
+
+11. purchases (jsonb):
+    - Array of recent purchase descriptions
+    - Example: ['Electronics', 'Groceries']
+
+12. comments (str):
+    - Customer comments
+    - Optional field
+    - Example: 'Excellent service'
+
+13. feedback (str):
+    - Customer feedback
+    - Optional field
+    - Example: 'Very satisfied'
+
+14. experience (int):
+    - Customer satisfaction rating
+    - Range: 0 to 5
+    - Example: 4
+
+Common Query Patterns:
+1. Customer Search:
+   SELECT * FROM customer_data WHERE UPPER(city) = UPPER(:city) AND state = :state;
+
+2. Income Analysis:
+   SELECT AVG(income) FROM customer_data WHERE credit >= :min_credit;
+
+3. Stock Holdings:
+   SELECT stocks FROM customer_data WHERE income > :min_income;
+
+4. Experience Rating:
+   SELECT COUNT(*) FROM customer_data WHERE experience >= :min_rating;
 """
-system_role = f"""You are a precise SQL query generator. Follow these rules strictly:
 
-1. ALWAYS use the exact table name: customer_data
-2. USE PROPER SQL SYNTAX:
-   - Use proper capitalization for SQL keywords (SELECT, FROM, WHERE, etc.)
-   - End queries with a semicolon
-   - Use proper quotes for string comparisons
-3. VALIDATION RULES:
-   - For city names: Use exact spelling and UPPER() function for case-insensitive comparison
-   - For states: Always use upper case two-letter codes and understand that words like 'New York' should be treated as 'NY' and Cali as CA and so on
-   - For numerical comparisons: Use appropriate operators (=, >, <, >=, <=)
-4. OPTIMIZATION:
-   - Use appropriate aggregate functions (AVG, COUNT, SUM, etc.)
-   - Keep the query as simple as possible
+# Improved system prompt with more specific instructions and examples
+system_role = """You are a precise SQL query generator specialized in customer data analysis. Always follow these strict rules:
 
-Database Schema:
-{SCHEMA}
+1. SCHEMA COMPLIANCE:
+   - Use only fields defined in the schema
+   - Respect data types and constraints
+   - Table name is always 'customer_data'
 
-Return ONLY the SQL query, no explanations or additional text.
-here are a few examples of valid SQL queries: List the stocks owned by people in Cal: SELECT stocks FROM customer_data WHERE state = 'CA'
+2. SQL BEST PRACTICES:
+   - Use UPPER() for case-insensitive string comparisons
+   - Include appropriate WHERE clauses for filtering
+   - Use proper JOIN syntax when needed
+   - Add appropriate indexes for optimization
+   - Use parameterized queries when possible
+
+3. ERROR PREVENTION:
+   - Always check for NULL values where appropriate
+   - Use COALESCE() for NULL handling
+   - Validate numerical ranges
+   - Properly escape string literals
+
+4. QUERY OPTIMIZATION:
+   - Avoid SELECT * unless specifically requested
+   - Use appropriate indexes
+   - Consider query performance
+   - Use appropriate aggregate functions
+
+5. COMMON TRANSFORMATIONS:
+   - State codes: Convert full state names to two-letter codes
+   - Cities: Use UPPER() for comparison
+   - Zip codes: Ensure 5-digit format
+   - JSON arrays: Use proper JSONB operators
+
+Example Queries:
+1. Find high-value customers in California:
+   SELECT first_name, last_name, income 
+   FROM customer_data 
+   WHERE state = 'CA' AND income > 100000.00 
+   ORDER BY income DESC;
+
+2. Analyze customer satisfaction by state:
+   SELECT state, AVG(experience) as avg_satisfaction 
+   FROM customer_data 
+   GROUP BY state 
+   HAVING COUNT(*) > 5;
+
+3. Find customers with specific stock holdings:
+   SELECT first_name, last_name 
+   FROM customer_data 
+   WHERE stocks ? 'AAPL' AND credit >= 700.0;
+
+Return only the SQL query without any explanation or additional text.
 """
 
-query_checker = """You are a SQL statement checker, 
+query_checker = """You are query statement checker that checks if a statement can be converted to SQL, 
 basically you will get a text and you have to give a true or false answer if it is asking for some sort of data from the database schema {database_schema}. 
-This data can be converted to SQL statment.
-If it can be converted, return the SQL query, if not return 'Invalid Query'. Eg- hello,hi,bye is not an sql query 
-when it asks you to give something its select, when words like remove then delete, when words like add then insert and so on
+Eg- hello,hi,bye is not an sql query 
+when there are words like select, remove, delete, add insert and so on then it is valid unless there are fields outside of database scheme
 also understand the fields from the database schema given {database_schema}
 """
 
 def checker(input_text):
     client = instructor.from_litellm(completion, mode=instructor.Mode.MD_JSON)
     response = client.chat.completions.create(
-        model="groq/llama-3.1-70b-versatile",
+        model="gpt-4o",
         max_tokens=1024,
         messages=[
             {"role": "system", "content": query_checker},
@@ -95,9 +193,10 @@ client = Groq(
 
 
 class SqlChecker(BaseModel):
-    text: bool
+    text: Annotated[bool,llm_validator("Analyze if the query can be a SQL query and give true or false", 
+                                         client=client)]
 class SqlMessage(BaseModel):
-    sql_query: Annotated[str,llm_validator("Do not return anything but the SQL query related to the database given", 
+    sql_query: Annotated[str,llm_validator("Do not return anything but the SQL query related to the query and database given", 
                                          client=client)]
 
 def get_db_connection():
@@ -122,8 +221,8 @@ def get_customer_data():
         # Fetch all customer data
         cur.execute("""
             SELECT id, first_name, last_name, city, state, 
-                   income, credit_score, stocks_owned::text, annual_income, 
-                   recent_purchases::text, extra_comments, feedback, experience
+                   income, credit, stocks::text, income, 
+                   purchases::text, comments, feedback, experience
             FROM customer_data;
         """)
         
@@ -138,7 +237,7 @@ def get_customer_data():
         for row in rows:
             item = {}
             for i, column in enumerate(columns):
-                if column in ['stocks_owned', 'recent_purchases']:
+                if column in ['stocks', 'purchases']:
                     try:
                         # Handle the case where the value might already be a string
                         if isinstance(row[i], str):
@@ -184,7 +283,7 @@ def customer_query():
     client = instructor.from_litellm(completion, mode =instructor.Mode.MD_JSON)
     if checker(query_text)==1:
         response = client.chat.completions.create(
-            model="groq/llama3-8b-8192",
+            model="gpt-4o",
             max_tokens=1024,
             messages=[
                     {"role": "system", "content": system_role},

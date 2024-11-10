@@ -32,15 +32,20 @@ export default function Analytics() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          'http://127.0.0.1:5000/api/customer-data',
-        );
-        setData(response.data);
-        analyzeTrends(response.data);
+        const response = await fetch('http://127.0.0.1:8000/api/customer-data');
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setData(data);
+        analyzeTrends(data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
+
     fetchData();
   }, []);
 
@@ -63,11 +68,10 @@ export default function Analytics() {
     analysisText += `Top 3 cities by customer count: ${popularCity}. `;
 
     const avgCreditScore =
-      data.reduce((sum, customer) => sum + customer.credit_score, 0) /
-      data.length;
+      data.reduce((sum, customer) => sum + customer.credit, 0) / data.length;
     analysisText += `The average credit score is ${avgCreditScore.toFixed(2)}. `;
 
-    const stocks = data.flatMap((customer) => customer.stocks_owned);
+    const stocks = data.flatMap((customer) => customer.stocks);
     const stocksCount = stocks.reduce((acc, stock) => {
       acc[stock] = (acc[stock] || 0) + 1;
       return acc;
@@ -95,7 +99,7 @@ export default function Analytics() {
       datasets: [
         {
           label: 'Credit Score',
-          data: data.map((customer) => customer.credit_score),
+          data: data.map((customer) => customer.credit),
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
           borderRadius: 8,
           borderWidth: 1,
