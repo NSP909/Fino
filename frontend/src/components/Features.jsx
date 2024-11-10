@@ -37,9 +37,7 @@ export const Features = () => {
           Elevate your business
         </h2>
         <p className="text-white/70 text-lg md:text-xl max-w-2xl mx-auto tracking-tighter text-center mt-5">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos et
-          ducimus voluptas quisquam eaque molestiae quas voluptatum natus nobis
-          aperiam.
+          Transform Operations with AI-Driven Insights and Real-Time Solutions
         </p>
         <div className="mt-10 flex flex-col lg:flex-row gap-3">
           {tabs.map((tab) => (
