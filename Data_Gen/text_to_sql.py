@@ -23,11 +23,11 @@ Columns:
 - city (str): City name, exactly as officially spelled
 - state (str): as a two letter abbreviation
 - zip (str): as a 5 digit number
-- credit_score (float): as a float/integer
-- stocks_owned (jsonb): JSON array of stocks owned as strings 
-- annual_income (float): as a float
-- recent_purchases (jsonb): JSON array of purchases as strings
-- extra_comments (str): a string
+- credit (float): as a float/integer to represent credit score
+- stocks (jsonb): JSON array of stocks owned as strings 
+- income (float): as a float
+- purchases (jsonb): JSON array of purchases as strings
+- comments (str): a string
 - feedback (str): a string
 - experience (int): number between 0 and 5 
 """
@@ -68,9 +68,9 @@ client = Groq(
 #         - city (str): City name, exactly as officially spelled
 #         - state (str): as a two letter abbreviation
 #         - zip (str): as a 5 digit number
-#         - credit_score (float): as a float/integer
-#         - stocks_owned (jsonb): JSON array of stocks owned as strings 
-#         - annual_income (float): as a float
+#         - credit (float): as a float/integer to show the
+#         - stocks (jsonb): JSON array of stocks owned as strings 
+#         - income (float): as a float
 #         - recent_purchases (jsonb): JSON array of purchases as strings
 #         - extra_comments (str): a string
 #         - feedback (str): a string
