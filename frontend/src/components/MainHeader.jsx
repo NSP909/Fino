@@ -1,8 +1,13 @@
+import React from 'react';
 import Logo from '../assets/logo.png';
 import Menu from '../assets/menu.png';
 import Button from './items/Button';
 
-export const MainHeader = () => {
+export const MainHeader = ({
+  scrollToHome,
+  scrollToFeatures,
+  scrollToContact,
+}) => {
   return (
     <header className="py-4 border-b border-white/15 md:border-none sticky top-0 z-10">
       <div className="absolute inset-0 backdrop-blur -z-10 md:hidden"></div>
@@ -17,21 +22,33 @@ export const MainHeader = () => {
 
           <div className="hidden md:block">
             <nav className="flex gap-8 text-sm">
-              <a href="#" className="text-white/70 hover:text-white transition">
+              <button
+                onClick={scrollToHome}
+                className="text-white/70 hover:text-white transition"
+              >
                 Home
-              </a>
-              <a href="#" className="text-white/70 hover:text-white transition">
+              </button>
+              <button
+                onClick={scrollToFeatures}
+                className="text-white/70 hover:text-white transition"
+              >
                 Features
-              </a>
-              <a href="#" className="text-white/70 hover:text-white transition">
-                Connect
-              </a>
+              </button>
+              <button
+                onClick={scrollToContact}
+                className="text-white/70 hover:text-white transition"
+              >
+                Contact
+              </button>
             </nav>
           </div>
           <div className="flex gap-4 items-center">
-            <Button to="/home">JOIN PLEASE</Button>
+            <Button href="/home" className="text-white/70">
+              JOIN PLEASE
+            </Button>
+
             <div>
-              <img src={Menu} alt="Logo" className="h-8 w-8 md:hidden" />
+              <img src={Menu} alt="Menu" className="h-8 w-8 md:hidden" />
             </div>
           </div>
         </div>
@@ -39,3 +56,5 @@ export const MainHeader = () => {
     </header>
   );
 };
+
+export default MainHeader;

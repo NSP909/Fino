@@ -4,7 +4,7 @@ import product from '../assets/product.png';
 
 const tabs = [
   {
-    icon: '/assets/lottie/vroom.lottie',
+    icon: '/assets/lottie/graph.lottie',
     title: 'User-friendly dashboard',
     isNew: false,
     backgroundPositionX: 0,
@@ -12,7 +12,7 @@ const tabs = [
     backgroundSizeX: 150,
   },
   {
-    icon: '/assets/lottie/click.lottie',
+    icon: '/assets/lottie/speed.lottie',
     title: 'Real-time response',
     isNew: false,
     backgroundPositionX: 98,
@@ -20,7 +20,7 @@ const tabs = [
     backgroundSizeX: 135,
   },
   {
-    icon: '/assets/lottie/stars.lottie',
+    icon: 'frontend/src/assets/lottie/Animation.lottie',
     title: 'Smart Manager',
     isNew: true,
     backgroundPositionX: 100,

@@ -10,7 +10,7 @@ import { motion } from 'framer-motion';
 export const ScrollTicker = () => {
   return (
     <section className="py-20 md:py-24">
-      <div className="container">
+      <div className="container -mt-10">
         <div className="flex items-center gap-5">
           <div className="flex-1 md:flex-none">
             <h2 className="text-white/70">

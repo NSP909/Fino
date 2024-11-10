@@ -38,7 +38,7 @@ const ChatBot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://161.35.127.128:5000/query', {
+      const response = await fetch('http://161.35.127.128:5000/chatbot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: userMessage.content }),

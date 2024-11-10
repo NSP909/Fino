@@ -110,7 +110,9 @@ export const Hero = () => {
           accusantium.
         </p>
         <div className="flex justify-center mt-5 mb-9">
-          <Button to="/home">Join Now</Button>
+          <Button href="/home" className="text-white/70">
+            JOIN
+          </Button>
         </div>
       </div>
     </motion.section>
